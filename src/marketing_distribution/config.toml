@@ -1,0 +1,27 @@
+[development]
+DB_ENV = "zipdrug-development-db"
+AWS_ACC_ID = "810248918384"
+AWS_REGION = "us-east-1"
+ROLE_ARN = "arn:aws:iam::362857707617:role/zipdrug_data_app_role"
+PROTEGRITY = "protegrity_send_cohort"
+S3_ARCHIVE_BUCKET = "zipdrug-anthem-sftp-dest"
+S3_ARCHIVE_PREFIX ="staging/outbound-marketing"
+
+[stage]
+DB_ENV = "zipdrug-stage-db"
+AWS_ACC_ID = "810248918384"
+AWS_REGION = "us-east-1"
+ROLE_ARN = "arn:aws:iam::810248918384:role/zd-gold-api-role"
+PROTEGRITY = "protegrity_send_cohort"
+S3_ARCHIVE_BUCKET = "zipdrug-anthem-sftp-dest"
+S3_ARCHIVE_PREFIX ="staging/outbound-marketing"
+
+[production]
+DB_ENV = "production-api-db"
+AWS_ACC_ID =""
+AWS_REGION = ""
+ROLE_ARN = "arn:aws:iam::527257445982:role/zd-plat-api-role"
+PROTEGRITY = "protegrity_send_cohort"
+S3_ARCHIVE_BUCKET = "zipdrug-anthem-sftp-dest"
+S3_ARCHIVE_PREFIX ="staging/outbound-marketing"
+
