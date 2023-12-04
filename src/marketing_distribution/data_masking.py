@@ -7,6 +7,7 @@ import logging
 from utility.utils import parse_envs, assume_role
 from utility.getSecrets import SecretsManager
 from botocore.exceptions import ClientError
+from datetime import datetime
 
 def detokenize(conn):
 
@@ -31,9 +32,11 @@ def detokenize(conn):
     patient_df["member_id"] = patient_lc_ext_df["member_ids"]
     patient_df["pk_key"] = patient_lc_ext_df["pk_key"]
 
+    patient_rmdup_df = patient_df.drop_duplicates()
+
     file_nm = "marketing-distribution_raw_data.csv"
 
-    patient_df.to_csv(file_nm, sep=",", index=False)
+    patient_rmdup_df.to_csv(file_nm, sep=",", index=False)
 
     with open(file_nm, 'r') as file:
         data = file.read()
@@ -48,7 +51,7 @@ def detokenize(conn):
 
     data_df = pd.read_csv(file_name, delimiter=',').rename(columns=str.lower)
 
-    merge_dt = pd.merge(patient_lc_ext_df, data_df, on="pk_key", how="inner").drop_duplicates()
+    merge_dt = pd.merge(patient_lc_ext_df, data_df, on="pk_key", how="inner")#.drop_duplicates()
 
     final_df = pd.DataFrame(columns=['Member ID', 'Patient Address State', 'Assigned Pharmacy ID', 'Plan Type', 'Program Eligibility', 'Patient ID', 'Pharmacy ID', 'Is Minor', 'Created Date'])
 
@@ -92,10 +95,12 @@ def detokenize(conn):
 
 def upload_output_file(detokenized_df):
 
-    final_outputfile = "marketing-distribution .csv"
+    dt = datetime.now()
+    dt = dt.strftime('%Y-%m-%d')
+    final_outputfile = f"marketing_{dt}.csv"
     detokenized_df.to_csv(final_outputfile, sep=",", index=False)
 
-    environment_secrets = parse_envs()
+    env_name, environment_secrets = parse_envs()
     bucket = environment_secrets["S3_ARCHIVE_BUCKET"]
     prefix = environment_secrets["S3_ARCHIVE_PREFIX"]
 

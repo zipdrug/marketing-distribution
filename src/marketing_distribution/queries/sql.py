@@ -1,6 +1,6 @@
 Patients_lifecylce_query ="""
 SELECT  member_id AS member_ids
-member_id as pk_key,
+,member_id as pk_key
 ,patient_address_state AS patient_address_state
 ,assigned_pharmacy_id AS assigned_pharmacy_id
 ,plan_type AS plan_type

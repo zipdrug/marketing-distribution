@@ -8,7 +8,6 @@ print('Environment is:', env_name)
 print('environment_secrets:', environment_secrets)
 DB_ENV: str = environment_secrets["DB_ENV"]
 AWS_REGION: str = environment_secrets["AWS_REGION"]
-QUEUE_NAME: str = environment_secrets["QUEUE_NAME"]
 AWS_ACC_ID: str = environment_secrets["AWS_ACC_ID"]
 
 
