@@ -49,9 +49,9 @@ def detokenize(conn):
     with open(file_name, "w") as f:
         f.write(response.text)
 
-    data_df = pd.read_csv(file_name, delimiter=',').rename(columns=str.lower)
+    data_df = pd.read_csv(file_name, delimiter=',', dtype='str').rename(columns=str.lower)
 
-    merge_dt = pd.merge(patient_lc_ext_df, data_df, on="pk_key", how="inner")#.drop_duplicates()
+    merge_dt = pd.merge(patient_lc_ext_df, data_df, on="pk_key", how="inner").drop_duplicates()
 
     final_df = pd.DataFrame(columns=['Member ID', 'Patient Address State', 'Assigned Pharmacy ID', 'Plan Type', 'Program Eligibility', 'Patient ID', 'Pharmacy ID', 'Is Minor', 'Created Date'])
 
@@ -98,6 +98,7 @@ def upload_output_file(detokenized_df):
     dt = datetime.now()
     dt = dt.strftime('%Y-%m-%d')
     final_outputfile = f"marketing_{dt}.csv"
+
     detokenized_df.to_csv(final_outputfile, sep=",", index=False)
 
     env_name, environment_secrets = parse_envs()
